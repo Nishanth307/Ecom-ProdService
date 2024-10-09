@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -45,13 +46,13 @@ public class ProductController {
       }
 
       @DeleteMapping("/{id}")
-      public void deleteProduct(Long id){
-            //return productService.deleteProduct();
+      public GenericProductDto deleteProduct(@PathVariable("id") Long id){
+            return productService.deleteProduct(id);
       }
 
 
-      @PatchMapping("/id")
-      public void updateProduct(Long id){
-            //return productService.updateProduct();
+      @PutMapping("/{id}")
+      public GenericProductDto updateProduct(@RequestBody GenericProductDto genericProductDto,@PathVariable("id") Long id){
+            return productService.updateProduct(id,genericProductDto);
       }
 }

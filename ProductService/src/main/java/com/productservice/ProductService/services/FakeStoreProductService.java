@@ -8,8 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RequestCallback;
+import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestTemplate;
 
 @Service("fakeStoreProductService")
@@ -58,27 +63,55 @@ public class FakeStoreProductService implements ProductService {
             return convertToGenericProductDto(responseEntity.getBody());
       }
 
+      //Generally dont return something when deleting dont return something
+      // changing getForEntity to delete it
       @Override
-      public void deleteProduct(Long id) {
+      public GenericProductDto deleteProduct(Long id) {
+            RestTemplate restTemplate = restTemplateBuilder.build();
+            
+            RequestCallback requestCallback = restTemplate.acceptHeaderRequestCallback(FakeStoreProductDto.class);
+		ResponseExtractor<ResponseEntity<FakeStoreProductDto>> responseExtractor = restTemplate.responseEntityExtractor(FakeStoreProductDto.class);
 
+            ResponseEntity<FakeStoreProductDto> responseEntity = 
+                        restTemplate.execute(specificProductUrl, HttpMethod.DELETE, requestCallback, responseExtractor, id);
+            return convertToGenericProductDto(responseEntity.getBody());
       }
 
       @Override
-      public void updateProduct(Long id) {
+      public GenericProductDto updateProduct(Long id,GenericProductDto genericProductDto) {
+            RestTemplate restTemplate = restTemplateBuilder.build();
+
+            HttpEntity<GenericProductDto> requestEntity = new HttpEntity<>(genericProductDto);
+            ResponseEntity<FakeStoreProductDto> responseEntity = 
+                        restTemplate.exchange(specificProductUrl, HttpMethod.PUT, requestEntity, FakeStoreProductDto.class, id);
+            //Simple PUT method will not return anything
+            return convertToGenericProductDto(responseEntity.getBody());
       }
 
 
 
       private static GenericProductDto convertToGenericProductDto(FakeStoreProductDto fakeStoreProductDto){
-            GenericProductDto genericProductDto = GenericProductDto.builder()
-                                                      .id(fakeStoreProductDto.getId())
-                                                      .image(fakeStoreProductDto.getImage())
-                                                      .description(fakeStoreProductDto.getDescription())
-                                                      .category(fakeStoreProductDto.getCategory())
-                                                      .title(fakeStoreProductDto.getTitle())
-                                                      .price(fakeStoreProductDto.getPrice())
-                                                      .build();
+            GenericProductDto genericProductDto = new GenericProductDto();
+            genericProductDto.setId(fakeStoreProductDto.getId());
+            genericProductDto.setImage(fakeStoreProductDto.getImage());
+            genericProductDto.setDescription(fakeStoreProductDto.getDescription());
+            genericProductDto.setCategory(fakeStoreProductDto.getCategory());
+            genericProductDto.setTitle(fakeStoreProductDto.getTitle());
+            genericProductDto.setPrice(fakeStoreProductDto.getPrice());
             return genericProductDto;
       }
       
+      /*
+      @Override
+      public GenericProductDto deleteProduct(Long id) {
+            RestTemplate restTemplate = restTemplateBuilder.build();
+            ResponseEntity<FakeStoreProductDto> responseEntity = 
+                        restTemplate.exchange(specificProductUrl, HttpMethod.DELETE, null, FakeStoreProductDto.class, id);
+            FakeStoreProductDto productDto = responseEntity.getBody();
+            if (productDto == null) {
+                  throw new RuntimeException("Failed to delete product or product not found.");
+            }
+            return convertToGenericProductDto(productDto);
+      }
+       */
 }
