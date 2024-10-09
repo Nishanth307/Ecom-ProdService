@@ -2,6 +2,7 @@ package com.productservice.ProductService.services;
 
 import com.productservice.ProductService.dtos.FakeStoreProductDto;
 import com.productservice.ProductService.dtos.GenericProductDto;
+import com.productservice.ProductService.exceptions.ProductNotFoundException;
 import com.productservice.ProductService.models.Product;
 
 import java.util.ArrayList;
@@ -29,16 +30,19 @@ public class FakeStoreProductService implements ProductService {
       }
 
       @Override
-      public GenericProductDto getProductById(Long id) {
+      public GenericProductDto getProductById(Long id) throws ProductNotFoundException {
             //integrate fake store api
             //rest template
             RestTemplate restTemplate = restTemplateBuilder.build();
             ResponseEntity<FakeStoreProductDto> responseEntity =
                     restTemplate.getForEntity(specificProductUrl, FakeStoreProductDto.class,id);
             //return "From Service Scalar Product fetched with id: "+id;
-
+            FakeStoreProductDto fakeStoreProductDto = responseEntity.getBody();
+            if (fakeStoreProductDto==null){
+                  throw new ProductNotFoundException("Product with id "+id+ " is not found!");
+            }
             //convert fakestoredto to generic dto before returning
-            return convertToGenericProductDto(responseEntity.getBody());
+            return convertToGenericProductDto(fakeStoreProductDto);
       }
 
       @Override
