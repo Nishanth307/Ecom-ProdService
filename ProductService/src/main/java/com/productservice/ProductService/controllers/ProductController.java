@@ -7,12 +7,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.productservice.ProductService.services.ProductService;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController //To show rest apis - @RestController 
@@ -31,22 +34,24 @@ public class ProductController {
       }
 
       @GetMapping 
-      public void getAllProducts(){
+      public List<GenericProductDto> getAllProducts(){
             //return productService.getAllProducts();
-      }
-
-      @DeleteMapping("/{id}")
-      public void deleteProduct(){
-            //return productService.deleteProduct();
+            return productService.getAllProducts();
       }
 
       @PostMapping
-      public void createProduct(){
-            //return productService.createProduct();
+      public GenericProductDto createProduct(@RequestBody GenericProductDto genericProductDto){
+            return productService.createProduct(genericProductDto);
       }
 
-      @PatchMapping
-      public void updateProduct(){
+      @DeleteMapping("/{id}")
+      public void deleteProduct(Long id){
+            //return productService.deleteProduct();
+      }
+
+
+      @PatchMapping("/id")
+      public void updateProduct(Long id){
             //return productService.updateProduct();
       }
 }
