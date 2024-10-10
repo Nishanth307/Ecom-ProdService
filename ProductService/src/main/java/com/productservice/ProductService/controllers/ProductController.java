@@ -46,13 +46,13 @@ public class ProductController {
       }
 
       @DeleteMapping("/{id}")
-      public GenericProductDto deleteProduct(@PathVariable("id") Long id){
+      public GenericProductDto deleteProduct(@PathVariable("id") Long id) throws ProductNotFoundException{
             return productService.deleteProduct(id);
       }
 
 
       @PutMapping("/{id}")
-      public GenericProductDto updateProduct(@RequestBody GenericProductDto genericProductDto,@PathVariable("id") Long id){
+      public GenericProductDto updateProduct(@RequestBody GenericProductDto genericProductDto,@PathVariable("id") Long id) throws ProductNotFoundException{
             return productService.updateProduct(id,genericProductDto);
       }
       /*
