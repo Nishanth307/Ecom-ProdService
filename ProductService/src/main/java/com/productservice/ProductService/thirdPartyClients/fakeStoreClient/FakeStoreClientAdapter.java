@@ -2,6 +2,7 @@ package com.productservice.ProductService.thirdPartyClients.fakeStoreClient;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -18,13 +19,20 @@ import com.productservice.ProductService.exceptions.ProductNotFoundException;
 @Component
 public class FakeStoreClientAdapter {
       private RestTemplateBuilder restTemplateBuilder ;
+      
 
-      private String specificProductUrl = "https://fakestoreapi.com/products/{id}";
-      private String genericProductUrl = "https://fakestoreapi.com/products";
+      //private String genericProductUrl = "https://fakestoreapi.com/products";
 
-      public FakeStoreClientAdapter(RestTemplateBuilder restTemplateBuilder){
+      //private String specificProductUrl = fakeStoreURL+pathForProducts+{id};
+
+      private String genericProductUrl ;
+      public FakeStoreClientAdapter(RestTemplateBuilder restTemplateBuilder,
+                                    @Value("${fakestore.api.paths.url}") String fakeStoreURL,
+                                    @Value("${fakestore.api.paths.products}") String pathForProducts){
             this.restTemplateBuilder =  restTemplateBuilder;
+            this.genericProductUrl = fakeStoreURL + pathForProducts;
       }
+      private String specificProductUrl = "https://fakestoreapi.com/products/{id}";
 
       
       public FakeStoreProductDto getProductById(Long id) throws ProductNotFoundException {
@@ -105,3 +113,4 @@ public class FakeStoreClientAdapter {
             return fakeStoreProductDto;
       }
 }
+//Removing interface because returns can be different
