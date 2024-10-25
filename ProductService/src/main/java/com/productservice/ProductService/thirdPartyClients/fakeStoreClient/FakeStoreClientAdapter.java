@@ -114,3 +114,4 @@ public class FakeStoreClientAdapter {
       }
 }
 //Removing interface because returns can be different
+//How does api's impact your resume
