@@ -1,5 +1,7 @@
 package com.productservice.ProductService.models;
 
+import java.util.UUID;
+
 import org.hibernate.annotations.GenericGenerator;
 
 import jakarta.persistence.Column;
@@ -15,7 +17,7 @@ import lombok.Setter;
 public class BaseModel{
       @Id
       @GeneratedValue(generator = "generator_name")
-      //@GenericGenerator(name = "generator_name", strategy = "uuid2")
+      @GenericGenerator(name = "generator_name", strategy = "uuid2")
       @Column(name = "id", columnDefinition = "binary(16)", nullable = false, updatable = false)
-      private Long id;
+      private UUID id;
 }
