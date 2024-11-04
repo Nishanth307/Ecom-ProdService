@@ -79,5 +79,16 @@ public class ProductServiceApplication implements CommandLineRunner{
 		productRepository.save(product);
 		priceRepository.deleteById(UUID.fromString(""));
 		*/
+		/*
+		 
+		List<Product> products = productRepository.findByTitle(" Sasta Mobile");
+		for (Product product:products){
+			
+		System.out.println(product.getTitle());
+	}
+	System.out.println("Hello World");
+	*/
+
+
 	}
 }
