@@ -85,9 +85,11 @@ public class FakeStoreClientAdapter {
             RequestCallback requestCallback = restTemplate.acceptHeaderRequestCallback(FakeStoreProductDto.class);
 		ResponseExtractor<ResponseEntity<FakeStoreProductDto>> responseExtractor = restTemplate.responseEntityExtractor(FakeStoreProductDto.class);
 
-            ResponseEntity<FakeStoreProductDto> responseEntity = 
-                        restTemplate.execute(specificProductUrl, HttpMethod.DELETE, requestCallback, responseExtractor, id);
+            ResponseEntity<FakeStoreProductDto> responseEntity = restTemplate.execute(specificProductUrl, HttpMethod.DELETE, requestCallback, responseExtractor, id);
             //return convertToGenericProductDto(responseEntity.getBody());
+
+            
+            @SuppressWarnings("null")
             FakeStoreProductDto fakeStoreProductDto = responseEntity.getBody();
             if (fakeStoreProductDto==null){
                   throw new ProductNotFoundException("Product with id "+id+ " is not found!");

@@ -7,10 +7,12 @@ import com.productservice.ProductService.thirdPartyClients.fakeStoreClient.FakeS
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
 import org.springframework.stereotype.Service;
 
 @Service("fakeStoreProductService")
-public class FakeStoreProductService implements ProductService {
+public class FakeStoreProductService  implements  ProductService{
       private FakeStoreClientAdapter fakeStoreClientAdapter;
       public FakeStoreProductService(FakeStoreClientAdapter fakeStoreClientAdapter){
             this.fakeStoreClientAdapter = fakeStoreClientAdapter;

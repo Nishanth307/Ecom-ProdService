@@ -60,4 +60,3 @@ public class ProductControllerTest {
                   () -> productController.getProductById(1L));
       }
 }
-

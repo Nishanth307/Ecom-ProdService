@@ -6,10 +6,10 @@ import java.util.UUID;
 import com.productservice.ProductService.dtos.GenericProductDto;
 import com.productservice.ProductService.exceptions.ProductNotFoundException;
 
-public interface ProductService {
-      public GenericProductDto getProductById(Long id) throws ProductNotFoundException;
+public interface ProductService2 {
+      public GenericProductDto getProductById(UUID id) throws ProductNotFoundException;
       public List<GenericProductDto> getAllProducts();
-      public GenericProductDto deleteProduct(Long id) throws ProductNotFoundException ;
+      public GenericProductDto deleteProduct(UUID id) throws ProductNotFoundException ;
       public GenericProductDto createProduct(GenericProductDto genericProductDto);
-      public GenericProductDto updateProduct(Long id, GenericProductDto genericProductDto) throws ProductNotFoundException ;
+      public GenericProductDto updateProduct(UUID id, GenericProductDto genericProductDto) throws ProductNotFoundException ;
 }

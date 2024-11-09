@@ -1,12 +1,94 @@
 package com.productservice.ProductService;
 
+import com.productservice.ProductService.models.Category;
+import com.productservice.ProductService.models.Price;
+import com.productservice.ProductService.models.Product;
+import com.productservice.ProductService.repositories.CategoryRepository;
+import com.productservice.ProductService.repositories.PriceRepository;
+import com.productservice.ProductService.repositories.ProductRepository;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 @SpringBootApplication
-public class ProductServiceApplication {
+public class ProductServiceApplication implements CommandLineRunner{
+
+	private final CategoryRepository categoryRepository;
+	private final PriceRepository priceRepository;
+	private final ProductRepository productRepository;
+
+	public ProductServiceApplication(CategoryRepository categoryRepository,
+									 ProductRepository productRepository,
+									 PriceRepository priceRepository) {
+		this.priceRepository = priceRepository;
+		this.categoryRepository = categoryRepository;
+		this.productRepository = productRepository;
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(ProductServiceApplication.class, args);
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+		/*
+		Category category = new Category();
+		category.setName("Iphone");
+		Category savedCategory = categoryRepository.save(category);
+		Category category2 = categoryRepository.findBy(UUID.fromString(""));
+		 */
+		/*
+		Optional<Category> optionalCategory = categoryRepository.findById(UUID.fromString("fa123e"));
+		if (optionalCategory.isEmpty()){
+			throw new Exception("category was null");
+		}
+		List<Product> products = optionalCategory.get().getProducts();
+		for (Product product:products){
+			System.out.println(product.getTitle());
+		}
+		 */
+		/*
+		Product product = new Product();
+		product.setTitle("Iphone bolthe");
+		product.setDescription("Iphone is the best");
+		product.setPrice(100);
+		product.setCategory(savedCategory);
+		Product savedProduct = productRepository.save(product);
+
+		 */
+
+		/* 
+		Price price = new Price();
+		price.setCurrency("INR");
+		price.setValue(105.0);
+		Price savedPrice = priceRepository.save(price);
+
+		Category category = new Category();
+		category.setName("Samsung");
+		Category savedCategory = categoryRepository.save(category);
+
+		Product product = new Product();
+		product.setTitle(" Sasta Mobile");
+		product.setDescription(" 100x zoom available");
+		product.setPrice(savedPrice);
+		product.setCategory(savedCategory);
+		productRepository.save(product);
+		priceRepository.deleteById(UUID.fromString(""));
+		*/
+		/*
+		 
+		List<Product> products = productRepository.findByTitle(" Sasta Mobile");
+		for (Product product:products){
+			
+		System.out.println(product.getTitle());
+	}
+	System.out.println("Hello World");
+	*/
+
+
 	}
 }
