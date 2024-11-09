@@ -16,16 +16,15 @@ import com.productservice.ProductService.exceptions.ProductNotFoundException;
 import com.productservice.ProductService.services.ProductService;
 
 import jakarta.inject.Inject;
-
-
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 
 @SpringBootTest
 public class ProductControllerTest { 
    // Only Test cases for controller //
-      @Mock
+      @MockBean
       private ProductService productService;//it will not actually store product service ,this is hardcoded local,only for test
-      @InjectMocks
+      @Inject
       private ProductController productController;
 
       @Test

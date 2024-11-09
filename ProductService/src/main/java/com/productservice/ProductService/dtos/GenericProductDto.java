@@ -12,4 +12,8 @@ public class GenericProductDto {
     private String category;
     private String description;
     private String image;
+public Object thenReturn(GenericProductDto genericProductDto) {
+      // TODO Auto-generated method stub
+      throw new UnsupportedOperationException("Unimplemented method 'thenReturn'");
+}
 }
