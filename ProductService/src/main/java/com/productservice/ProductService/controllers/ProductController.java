@@ -3,20 +3,13 @@ package com.productservice.ProductService.controllers;
 import com.productservice.ProductService.dtos.GenericProductDto;
 import com.productservice.ProductService.exceptions.ProductNotFoundException;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.productservice.ProductService.services.ProductService;
-
+import org.springframework.http.HttpHeaders;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @RestController //To show rest apis - @RestController 
@@ -24,14 +17,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class ProductController {
       private ProductService productService;
 
-      ProductController(@Qualifier("fakeStoreProductService") ProductService productService){
+      ProductController( @Qualifier("fakeStoreProductService") ProductService productService){
             this.productService = productService;
       }
-
+ 
       @GetMapping("/{id}") 
-      public GenericProductDto getProductById(@PathVariable Long id) throws ProductNotFoundException{
+      public GenericProductDto getProductById(@RequestHeader(HttpHeaders.AUTHORIZATION) String authToken,@PathVariable Long id) throws ProductNotFoundException{
             //return "Scalar Product fetched with id: "+id;
-            return productService.getProductById(id);
+            return productService.getProductById(authToken,id);
       }
 
       @GetMapping 

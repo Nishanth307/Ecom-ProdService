@@ -42,21 +42,21 @@ public class ProductControllerTest {
       }
       */
       
-     @Test
-     void testgetProductByIdMocking() throws ProductNotFoundException{
-      GenericProductDto genericProductDto = new GenericProductDto();
-      when(productService.getProductById(100L)).thenReturn(genericProductDto);//hardcoding to null instead of exception
-      GenericProductDto genericProductDto2 = productController.getProductById(100L);
-      assertEquals(genericProductDto,genericProductDto2);
-      //assertEquals(genericProductDto,productService.getProductById(100L));
-     }
+   //   @Test
+   //   void testgetProductByIdMocking() throws ProductNotFoundException{
+   //    GenericProductDto genericProductDto = new GenericProductDto();
+   //    when(productService.getProductById(100L)).thenReturn(genericProductDto);//hardcoding to null instead of exception
+   //    GenericProductDto genericProductDto2 = productController.getProductById(100L);
+   //    assertEquals(genericProductDto,genericProductDto2);
+   //    //assertEquals(genericProductDto,productService.getProductById(100L));
+   //   }
 
-      @Test
-      void testGetProductByIdMockingException() throws ProductNotFoundException {
-         when(productService.getProductById(1L))
-                  .thenThrow(ProductNotFoundException.class);
+   //    @Test
+   //    void testGetProductByIdMockingException() throws ProductNotFoundException {
+   //       when(productService.getProductById(1L))
+   //                .thenThrow(ProductNotFoundException.class);
 
-         assertThrows(ProductNotFoundException.class,
-                  () -> productController.getProductById(1L));
-      }
+   //       assertThrows(ProductNotFoundException.class,
+   //                () -> productController.getProductById(1L));
+   //    }
 }

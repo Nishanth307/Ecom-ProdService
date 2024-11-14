@@ -18,6 +18,7 @@ public class Product extends BaseModel{
       @ManyToOne(optional = false)
       private Category category;
       
+      //cascade- when product is reomved price will also be remove from the table
       //@JoinColumn(nullable = false)
       @OneToOne(optional = false,cascade = {CascadeType.REMOVE,CascadeType.PERSIST})
       private Price price;
