@@ -1,0 +1,88 @@
+# Annotations:
+      @ManyToOne
+      @OneToOne
+      @OneToMany
+      @ManyToMany
+
+# Uni-Directional 
+* In Many to One mapping - PK of one side will go as FK to many side
+* In One To Many - creates a mapping table 
+      @JoinColumn("category_id") eg:for product and category
+      - To avoid mapping table 
+      - Can be added on either side
+      - join via column and not by mapping table by creating a column as FK in Many side
+#Bi-Directional
+* mappedBy is used to define owning side of the relationship eg: @OneToMany(mappedBy="columnNameOnOtherSide")
+      - 
+* eg: useful for incase category is owning side and want to remove all products related to that category
+      - JoinColumn doesn't work in bi-directional
+      - creates two mapping tables
+* @ManyToMany
+      - in two mapping tables are created
+      - mapped by at students field mean students is the owning side and courses is inverse side
+      - simple basic example:
+      @ManyToMany                   @ManyToMany(mappedBy="courses")  -> results student_courses
+      List<Course> courses;   -     List<Student> students;
+      - can also use @JoinTable ,ex:
+      #student owning side                                 | | course inverse side 
+      @ManyToMany                                           | @ManyToMany(mappedBy="courses")
+      @JoinTable(                                           |
+      name = "student_course",                              |
+      joinColumns = @JoinColumn(name = "student_id"),       |
+      inverseJoinColumns = @JoinColumn(name = "course_id")) |
+      Set<Course> courses;    -                             | Set<Student> students;
+
+# Cascade Types
+      - ALL, PERSIST(save), MERGE(update), REFRESH(refresh load), DETACH
+      - eg: @OneToMany()
+# Fetch Types
+      eg : @OneToMany(fetch = FetchType.EAGER)
+      @EAGER - Get All dependent entities
+      # Fetch Modes
+            | @Fetch(value = FetchMode.SELECT) uses select to fetch
+            | @Fetch(value = FetchMode.SUBSELECT) uses select to fetch
+                  - N+1 problem / queries, no caching and inefficient
+            @Fetch(value = FetchMode.JOIN) uses join to fetch 
+            - single join query but slow at first then caches the table
+
+      eg : @OneToMany(fetch = FetchType.LAZY)
+      @LAZY  - Get only the referred entity.
+
+# @Transaction  - works similar to (EAGER fetch type)
+      - To run all dependent entities and their queries as one transaction 
+      - generally dependent entities run as saparate transactions but defiing on top of method runs as one single transaction.
+
+# @Query
+      - do crud in sql with query
+      best practice - create an interface and write custom query in a variable
+
+
+# Inheritance - 
+| eg:@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)     |
+| public className(){}    
+
+| Feature / Strategy    | `@MappedSuperclass`        | `SINGLE_TABLE`               | `TABLE_PER_CLASS`               | `JOINED`                           |
+| --------------------- | -------------------------- | ---------------------------- | ------------------------------- | ---------------------------------- |
+| **Annotation**        | `@MappedSuperclass`        | `@Inheritance(SINGLE_TABLE)` | `@Inheritance(TABLE_PER_CLASS)` | `@Inheritance(JOINED)`             |
+| **Superclass table?** | ❌ No table                 | ✅ One common table           | ✅ One table per subclass        | ✅ One for superclass + subclasses  |
+| **Subclass table?**   | ✅ Yes (inherits fields)    | ❌ No separate table          | ✅ Own table with all fields     | ✅ Own table with only extra fields |
+| **Query superclass?** | ❌ No (not an entity)       | ✅ Yes                        | ✅ Yes                           | ✅ Yes                              |
+| **Performance**       | ✅ Fast                     | ✅ Fast                       | ❌ Slow (UNIONs)                 | ⚠️ Medium (joins)                  |
+| **Null columns?**     | ❌ No                       | ⚠️ Yes (for unused fields)   | ❌ No                            | ❌ No                               |
+| **Best used for**     | Code reuse (common fields) | Small hierarchies            | Rarely used                     | Clean normalized structures        |
+
+- SINGLE_TABLE 
+            # DiscriminatorColumn
+                  - for discriminating values 
+                  - can be used when InheritanceType is SINGLE_TABLE
+            @DiscriminatorColumn(
+                  name = "user_type",
+                  discriminatorType = DiscriminatorType.INTEGER
+            )
+
+            @DiscriminatorValue(value = "1") // when class is treated as col
+            public className{}
+
+
+      
+

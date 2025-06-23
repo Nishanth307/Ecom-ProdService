@@ -1,15 +1,39 @@
 package com.productservice.ProductService.services;
 
+import com.productservice.ProductService.models.FakeStore.GenericProductRequestDto;
+import com.productservice.ProductService.models.dtos.GenericDto;
+import com.productservice.ProductService.models.dtos.GenericProductResponseDto;
+import com.productservice.ProductService.services.interfaces.IProductService;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
-import java.util.UUID;
 
-import com.productservice.ProductService.dtos.GenericProductDto;
-import com.productservice.ProductService.exceptions.ProductNotFoundException;
+@Primary
+@Service
+public class ProductService  {
+      private final IProductService productService;
+      public ProductService(IProductService productService){
+            this.productService = productService ;
+      }
 
-public interface ProductService {
-      public GenericProductDto getProductById(String authToken,Long id) throws ProductNotFoundException;
-      public List<GenericProductDto> getAllProducts();
-      public GenericProductDto deleteProduct(Long id) throws ProductNotFoundException ;
-      public GenericProductDto createProduct(GenericProductDto genericProductDto);
-      public GenericProductDto updateProduct(Long id, GenericProductDto genericProductDto) throws ProductNotFoundException ;
+      public GenericProductResponseDto getProductById(String id) {
+            return productService.getProductById(id);
+      }
+
+      public List<GenericProductResponseDto> getAllProducts() {
+            return productService.getAllProducts();
+      }
+
+      public GenericDto updateProductById(String id, GenericProductRequestDto dto) {
+            return productService.updateProductById(id, dto);
+      }
+
+      public GenericDto createProduct(GenericProductRequestDto productDto) {
+            return productService.createProduct(productDto);
+      }
+
+      public GenericProductResponseDto deleteProductById(String id){
+            return productService.deleteProductById(id);
+      }
 }

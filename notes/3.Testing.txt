@@ -1,0 +1,30 @@
+# Functional Testing: Test end to end of a use case/scenarios
+  - (testing functionality of a product as a user)
+# Integration Testing: Tests how multiple components work together.
+    - anything outside the application code = db-calls,3rd party, queries
+# Unit Testing: Tests individual components or functions in isolation.
+    - anything outside the method should be mocked.
+#Advantage Mocking
+    - no dependency on 3rd party tests
+    - we can mock and response for any scenario
+B2B -> compliance [Data residency]
+    - physical locations of data should save at company locations.
+    - DB-platforms:service acts as DB
+* Instead of calling the 3rd party services we actually mock the 3rd party response.
+
+Scenarios in unit testing:
+    1) bad cases -> scenarios we don't expect
+    2) corner cases -> first and last index
+    3) happy cases
+
+Best Practices for unit testing:
+    Structure:
+        3A          3C
+        Arrange |   Create  -> create the required object and mock dependencies.
+        Act     |   Call    -> call the method that you need to be tested.
+        Assert  |   Check   -> check tf things are working fine.
+    they should be fast,isolated,repeatable -> no flakiness, self checking-> no input once test is created,
+    test behaviour not implementation.
+
+TDD - Test Driven Development -> first test then develop code.
+

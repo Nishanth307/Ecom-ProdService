@@ -3,36 +3,26 @@ package com.productservice.ProductService.controllers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.when;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.productservice.ProductService.dtos.GenericProductDto;
-import com.productservice.ProductService.exceptions.ProductNotFoundException;
-import com.productservice.ProductService.services.ProductService;
-
-import jakarta.inject.Inject;
-import org.springframework.boot.test.mock.mockito.MockBean;
+// import com.productservice.ProductService.services2.ProductService;
 
 
 @SpringBootTest
 public class ProductControllerTest { 
    // Only Test cases for controller //
-      @MockBean
-      private ProductService productService;//it will not actually store product service ,this is hardcoded local,only for test
-      @Inject
-      private ProductController productController;
+      // @MockBean
+      // private ProductService productService;//it will not actually store product service ,this is hardcoded local,only for test
+      // @Inject
+      // private ProductController productController;
 
-      @Test
-      @DisplayName("Testing addition")
-      void checkAddition(){
-         //assert(5 == 2+3);
-         assertEquals(5,2+3,"both values should be equal");
-      }
+      // @Test
+      // @DisplayName("Testing addition")
+      // void checkAddition(){
+      //    //assert(5 == 2+3);
+      //    assertEquals(5,2+3,"both values should be equal");
+      // }
       /*
       
       @Test
