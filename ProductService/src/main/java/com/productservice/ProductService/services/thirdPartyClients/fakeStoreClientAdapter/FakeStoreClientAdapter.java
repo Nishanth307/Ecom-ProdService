@@ -1,4 +1,4 @@
-package com.productservice.ProductService.services.thirdPartyClients.fakeStoreClient;
+package com.productservice.ProductService.services.thirdPartyClients.fakeStoreClientAdapter;
 //
 //import java.util.List;
 //

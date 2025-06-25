@@ -10,6 +10,7 @@ import java.util.List;
 @Setter
 @Entity
 public class Product extends BaseModel{
+    @Column(nullable = false,unique = true)
     private String name;
     private String title;
     private String image;
@@ -18,10 +19,9 @@ public class Product extends BaseModel{
     private Price price;
     @OneToOne(cascade = CascadeType.ALL)
     private Rating rating;
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE},optional = false)
     @JoinColumn(name = "category_id")
     private Category category;
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private List<Order> orders;
 }
-//      @ManyToOne(optional = false)

@@ -1,11 +1,10 @@
-package com.productservice.ProductService.services.thirdPartyClients.fakeStoreClient;
+package com.productservice.ProductService.services.thirdPartyClients.fakeStoreClientAdapter;
 
-import com.productservice.ProductService.models.FakeStore.GenericProductRequestDto;
+import com.productservice.ProductService.models.dtos.GenericProductRequestDto;
 import com.productservice.ProductService.models.dtos.GenericDto;
 import com.productservice.ProductService.models.dtos.GenericProductResponseDto;
 import com.productservice.ProductService.services.interfaces.IProductService;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -14,12 +13,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@Primary
 @Component("productFakeStore")
-public class FakeStoreProductAdapter implements IProductService {
+public class FakeStoreProduct implements IProductService {
     private final RestTemplateBuilder restTemplateBuilder;
 
-    public FakeStoreProductAdapter(RestTemplateBuilder restTemplateBuilder){
+    public FakeStoreProduct(RestTemplateBuilder restTemplateBuilder){
         this.restTemplateBuilder = restTemplateBuilder;
     }
 

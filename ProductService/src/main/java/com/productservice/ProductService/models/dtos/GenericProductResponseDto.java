@@ -1,6 +1,5 @@
 package com.productservice.ProductService.models.dtos;
 
-import com.productservice.ProductService.models.FakeStore.Rating;
 import lombok.Getter;
 import lombok.Setter;
 

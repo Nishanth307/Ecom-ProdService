@@ -28,3 +28,49 @@ Best Practices for unit testing:
 
 TDD - Test Driven Development -> first test then develop code.
 
+@MockBean - for injecting/autowiring
+
+// create a test class
+// test package structure should be similar as main code package structure
+// thing that you want to test as a proper dependency [autowired and not mocked]
+// test method should suggest what you are testing
+// after creating objects ,call the method you want to test and then compare the input and output
+
+
+@BeforeEach - Runs before every test method.
+@AfterEach - Runs after every test method.
+@BeforeAll - Runs once before all test methods in the class.
+@AfterAll - - Runs once after all tests have finished
+
+//Junit
+@Mock - we need mock ,object of it is a dependency of the actual test
+@InjectMocks - the class we want to test and this is where we should inject
+
+- for every testcase you create brand-new object, use it and destroy it.
+    - to keep things clean and isolated
+    - eg:creates Repo object use it and destroys it.
+
+- finally is used for resource closing in try catch.
+    Scanner sc;
+    try{
+        sc = new Scanner(system.in);
+    }finally{ // resource clean up
+        sc.close();
+    }
+
+when(categoryRepository.findByName(any())).thenReturn(mockCategory); -> try to avoid any() as much as possible
+
+(H2Database)
+
+#Integration Test
+- Spawn a docker container for db
+- Connecting code to your db
+- Insert dummy data inside db
+- Run the tests
+- Destroy the container
+
+* Dispatcher - routes the http requests to appropriate controllers
+
+
+# WebMockMVC
+

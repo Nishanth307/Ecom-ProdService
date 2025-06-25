@@ -1,6 +1,6 @@
 package com.productservice.ProductService.services;
 
-import com.productservice.ProductService.models.FakeStore.GenericProductRequestDto;
+import com.productservice.ProductService.models.dtos.GenericProductRequestDto;
 import com.productservice.ProductService.models.dtos.GenericDto;
 import com.productservice.ProductService.models.dtos.GenericProductResponseDto;
 import com.productservice.ProductService.services.interfaces.IProductService;

@@ -1,0 +1,17 @@
+# Protobuf (protocol buffers):
+    - Protocol Buffers (Protobuf) is a language-neutral, platform-neutral, extensible mechanism for serializing structured data—think of it as a faster, smaller alternative to JSON or XML, especially useful in microservices and high-performance systems.
+        syntax = "proto3";
+
+        message User {
+          string id = 1;
+          string name = 2;
+          int32 age = 3;
+        }
+
+# Intro to authentication:
+- authentication: Verifying who the user is
+- authorization: Determining what an authenticated user is allowed to do.
+
+
+
+

@@ -1,4 +1,4 @@
-package com.productservice.ProductService.models.FakeStore;
+package com.productservice.ProductService.models.dtos;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,6 +1,7 @@
 package com.productservice.ProductService.services;
 
-import com.productservice.ProductService.models.FakeStore.FakeStoreCategory;
+import com.productservice.ProductService.exceptions.ProductNotFoundException;
+import com.productservice.ProductService.models.datamodels.Category;
 import com.productservice.ProductService.services.interfaces.ICategoryService;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,15 @@ public class CategoryService {
         this.categoryService = categoryService;
     }
 
-    public List<FakeStoreCategory> getAllCategories(){
+    public List<Category> getAllCategories(){
         return categoryService.getCategories();
     }
 
+    public void createCategory(Category category){
+        categoryService.createCategory(category);
+    }
+
+    public Category findCategoryByName(String categoryName) throws ProductNotFoundException {
+        return categoryService.findCategoryByName(categoryName);
+    }
 }

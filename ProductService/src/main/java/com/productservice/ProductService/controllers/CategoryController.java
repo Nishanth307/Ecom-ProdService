@@ -1,12 +1,10 @@
 package com.productservice.ProductService.controllers;
 
-import com.productservice.ProductService.models.FakeStore.FakeStoreCategory;
+import com.productservice.ProductService.exceptions.ProductNotFoundException;
+import com.productservice.ProductService.models.datamodels.Category;
 import com.productservice.ProductService.services.interfaces.ICategoryService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.productservice.ProductService.services.localDbImpl.CategoryDB;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,9 +16,21 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    @GetMapping("/categories")
-    public List<FakeStoreCategory> getCategories(){
+    @GetMapping
+    public List<Category> getCategories(){
         return categoryService.getCategories();
     }
+
+    @GetMapping("categories/{name}")
+    public Category getCategoryByName(@PathVariable String name) throws ProductNotFoundException {
+        return categoryService.findCategoryByName(name);
+    }
+
+    @PostMapping
+    public void createCategory(@RequestBody Category category){
+        categoryService.createCategory(category);
+    }
+
+
 
 }

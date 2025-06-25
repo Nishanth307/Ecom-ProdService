@@ -1,4 +1,4 @@
-package com.productservice.ProductService.services.thirdPartyClients.fakeStoreClient;
+package com.productservice.ProductService.services.thirdPartyClients.fakeStoreClientAdapter;
 
 // @Service("fakeStoreProductService")
 // public class FakeStoreProductService  implements  ProductService{

@@ -1,10 +1,9 @@
 package com.productservice.ProductService.controllers;
 
-import com.productservice.ProductService.models.FakeStore.GenericProductRequestDto;
+import com.productservice.ProductService.models.dtos.GenericProductRequestDto;
 import com.productservice.ProductService.models.dtos.GenericDto;
 import com.productservice.ProductService.models.dtos.GenericProductResponseDto;
 import com.productservice.ProductService.services.interfaces.IProductService;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

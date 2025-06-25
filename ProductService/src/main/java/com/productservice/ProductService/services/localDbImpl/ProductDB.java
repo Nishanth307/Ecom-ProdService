@@ -1,9 +1,10 @@
-package com.productservice.ProductService.services.localDb;
+package com.productservice.ProductService.services.localDbImpl;
 
-import com.productservice.ProductService.models.FakeStore.GenericProductRequestDto;
+import com.productservice.ProductService.models.dtos.GenericProductRequestDto;
 import com.productservice.ProductService.models.datamodels.Product;
 import com.productservice.ProductService.models.dtos.GenericDto;
 import com.productservice.ProductService.models.dtos.GenericProductResponseDto;
+import com.productservice.ProductService.models.datamodels.Rating;
 import com.productservice.ProductService.repositories.ProductRepository;
 import com.productservice.ProductService.services.interfaces.IProductService;
 import org.springframework.context.annotation.Primary;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+@Primary
 @Component("productLocalDb")
 public class ProductDB implements IProductService {
     private final ProductRepository productRepository;
@@ -45,7 +47,9 @@ public class ProductDB implements IProductService {
 
     @Override
     public GenericDto createProduct(GenericProductRequestDto productDto) {
-        return null;
+        Product product = convertToProduct(productDto);
+        productRepository.save(product);
+        return convertToGenericDto(productDto);
     }
 
     @Override
@@ -53,8 +57,39 @@ public class ProductDB implements IProductService {
         UUID uuid = UUID.fromString(id);
         Product product = new Product();
         productRepository.save(product);
-        return null;
+        return convertToGenericDto(productDto);
     }
+
+    private Product convertToProduct(GenericProductRequestDto dto){
+        Product product = new Product();
+        product.setName(dto.getName());
+        product.setTitle(dto.getTitle());
+        product.setDescription(dto.getDescription());
+        product.setCategory(dto.getCategory());
+        product.setImage(dto.getImage());
+        product.setOrders(dto.getOrders());
+        product.setPrice(dto.getPrice());
+
+        Rating rating = new Rating();
+        rating.setCount(dto.getRating().getCount());
+        rating.setRate(dto.getRating().getRate());
+        product.setRating(rating);
+
+        return product;
+    }
+
+    private GenericDto convertToGenericDto(GenericProductRequestDto requestDto){
+        GenericDto dto = new GenericDto();
+        dto.setName(requestDto.getName());
+        dto.setTitle(requestDto.getTitle());
+        dto.setPrice(requestDto.getPrice().getValue());
+        dto.setCategory(requestDto.getCategory().getName());
+        dto.setDescription(requestDto.getDescription());
+        dto.setTitle(requestDto.getTitle());
+        dto.setImage(requestDto.getImage());
+        return dto;
+    }
+
 }
 
 // normally we don't have to send response

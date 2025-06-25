@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 
 @SpringBootTest
-public class ProductControllerTest { 
+public class ProductControllerTest2 {
    // Only Test cases for controller //
       // @MockBean
       // private ProductService productService;//it will not actually store product service ,this is hardcoded local,only for test
