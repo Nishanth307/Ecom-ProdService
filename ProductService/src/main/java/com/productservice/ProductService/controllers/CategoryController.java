@@ -1,9 +1,8 @@
 package com.productservice.ProductService.controllers;
 
-import com.productservice.ProductService.exceptions.ProductNotFoundException;
+import com.productservice.ProductService.exceptions.CategoryNotFoundException;
 import com.productservice.ProductService.models.datamodels.Category;
 import com.productservice.ProductService.services.interfaces.ICategoryService;
-import com.productservice.ProductService.services.localDbImpl.CategoryDB;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +21,7 @@ public class CategoryController {
     }
 
     @GetMapping("categories/{name}")
-    public Category getCategoryByName(@PathVariable String name) throws ProductNotFoundException {
+    public Category getCategoryByName(@PathVariable String name) throws CategoryNotFoundException {
         return categoryService.findCategoryByName(name);
     }
 

@@ -21,8 +21,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.mockito.ArgumentMatchers.eq;
@@ -114,7 +113,15 @@ public class ProductControllerIT {
                 .andExpect(content().string(responseJson));
     }
 
-
+    @Test
+    void deleteProductByIdSuccess() throws Exception {
+        GenericProductResponseDto dto = new GenericProductResponseDto();
+        dto.setId("1");
+        when (productService.deleteProductById("5")).thenReturn(dto);
+        mockMvc.perform(delete("/products/1"))
+                .andExpect(status().is(200))
+                .andExpect(content().string(""));
+    }
 
     private String convertToJson(Object object) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();

@@ -30,7 +30,7 @@ public class FakeStoreProduct implements IProductService {
                 .getForEntity(url, GenericProductResponseDto.class,id);
 
         GenericProductResponseDto fakeStoreProduct = new GenericProductResponseDto();
-        if (responseEntity.hasBody()){
+        if (responseEntity.hasBody()) {
             fakeStoreProduct = responseEntity.getBody();
         }
         return fakeStoreProduct;

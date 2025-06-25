@@ -1,7 +1,7 @@
 package com.productservice.ProductService.services.localDbImpl;
 
 import com.productservice.ProductService.exceptions.InvalidNameException;
-import com.productservice.ProductService.exceptions.ProductNotFoundException;
+import com.productservice.ProductService.exceptions.CategoryNotFoundException;
 import com.productservice.ProductService.models.datamodels.Category;
 import com.productservice.ProductService.repositories.CategoryRepository;
 import com.productservice.ProductService.services.interfaces.ICategoryService;
@@ -28,13 +28,13 @@ public class CategoryDB implements ICategoryService {
     }
 
     @Override
-    public Category findCategoryByName(String categoryName) throws ProductNotFoundException {
+    public Category findCategoryByName(String categoryName) throws CategoryNotFoundException {
         if (categoryName==null || categoryName.isEmpty()){
             throw new InvalidNameException("invalid title");
         }
         Category category= categoryRepository.findByName(categoryName);
         if (category==null){
-            throw new ProductNotFoundException("Product with given name is not found");
+            throw new CategoryNotFoundException("Product with given name is not found");
         }
         return category;
     }

@@ -1,6 +1,6 @@
 package com.productservice.ProductService.services.localDbImpl;
 
-import com.productservice.ProductService.exceptions.ProductNotFoundException;
+import com.productservice.ProductService.exceptions.CategoryNotFoundException;
 import com.productservice.ProductService.models.datamodels.Category;
 import com.productservice.ProductService.repositories.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
@@ -26,7 +26,7 @@ public class CategoryServiceTest2 {
     }
 
     @Test
-    public void testGetCategoryByNameSuccess() throws ProductNotFoundException {
+    public void testGetCategoryByNameSuccess() throws CategoryNotFoundException {
         // arrange
         String name = "Clothes";
         Category mockCategory = new Category();
@@ -40,11 +40,11 @@ public class CategoryServiceTest2 {
     }
 
     @Test
-    public void testFindProductByNameWithNullObject() throws ProductNotFoundException {
+    public void testFindProductByNameWithNullObject() throws CategoryNotFoundException {
         String name = "Clothes";
         when(categoryRepository.findByName(name)).thenReturn(null);
 //        Category category = categoryService.findCategoryByName(name);
 //        Assertions.assertEquals(category.getName(),name);
-        Assertions.assertThrows(ProductNotFoundException.class,()->categoryService.findCategoryByName(name));
+        Assertions.assertThrows(CategoryNotFoundException.class,()->categoryService.findCategoryByName(name));
     }
 }

@@ -1,6 +1,6 @@
 package com.productservice.ProductService.services;
 
-import com.productservice.ProductService.exceptions.ProductNotFoundException;
+import com.productservice.ProductService.exceptions.CategoryNotFoundException;
 import com.productservice.ProductService.models.datamodels.Category;
 import com.productservice.ProductService.services.interfaces.ICategoryService;
 import org.springframework.context.annotation.Primary;
@@ -24,7 +24,7 @@ public class CategoryService {
         categoryService.createCategory(category);
     }
 
-    public Category findCategoryByName(String categoryName) throws ProductNotFoundException {
+    public Category findCategoryByName(String categoryName) throws CategoryNotFoundException {
         return categoryService.findCategoryByName(categoryName);
     }
 }
