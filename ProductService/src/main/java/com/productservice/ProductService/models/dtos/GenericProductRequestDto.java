@@ -21,6 +21,7 @@ public class GenericProductRequestDto {
     private Category category;
     private String image;
     private List<Order> orders;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

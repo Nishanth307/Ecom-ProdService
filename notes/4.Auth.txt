@@ -1,7 +1,6 @@
 # Protobuf (protocol buffers):
     - Protocol Buffers (Protobuf) is a language-neutral, platform-neutral, extensible mechanism for serializing structured data—think of it as a faster, smaller alternative to JSON or XML, especially useful in microservices and high-performance systems.
         syntax = "proto3";
-
         message User {
           string id = 1;
           string name = 2;
@@ -12,6 +11,62 @@
 - authentication: Verifying who the user is
 - authorization: Determining what an authenticated user is allowed to do.
 
+# Implementing Authentication -
+* Oauth - Protocol for authentication.
+        - it can be used to authenticate via 3rd party services.
+        - latest: Oauth 2.0
+* First create an authentication server
+    - this is the place we grant permission of a particular thing to particular application.
+    - the moment we hit "accept/deny" it will go to the auth server
 
+    Client - that wants the access,Cred
+    Resource Owner - who ons the resource server
+    Auth Server - Google
+        Resource Server - Gmail which contains emails
+                                                         (3)
+    Student                                         Principal                                Teacher
+    Cred(client)        <-Read mail(yes/no)(1)->       Auth Server        -validate(yes/no)-       Resource server(Gmail)
+                                                        | (Accept/Deny)(2)
+                                                    Resource Owner
+# Flow
+1) Client asks for permission from the auth server.
+2) Resource Owner grants the permission to auth server for the client(First Time)
+3) Client reaches to resource server to get the data.
+4) Resource server check with auth server if the client can have the access.
+5) The validation check is optimized with jwt token instead of checking entire db in authserver.
+
+# Flow2
+1) same
+2) same
+3) Client takes the token and goes to resource owner for asking resource permission.
+4) token by resource is validated and then responds with data
+some Validation should be for resource server
+
+JWT tokens Json web tokens
+    - Magically get all details [what resource are allowed to access]
+    - Can send the token inside token itself.it has 3 parts
+   Header   *   Payload     *       Signature
+
+RBAC - Role Based Access Control
+RBAC, or Role-Based Access Control, is a method of managing user permissions based on their roles within an
+organization. Instead of assigning permissions to each user individually, RBAC groups permissions into roles,
+and users are assigned to those roles. This makes access control more scalable, secure, and easier to
+manage—especially in large systems.
+
+
+Implementation of authentication service:
+1) signup - name,email,password [POST]
+    - password(encrypted) while sending through network.
+    - store passwords in encrypted password with salt. encrypt(password+salt-(random thing like timestamp))
+    - bcrypt adds its own randomness (matching happens with same string or not)
+    - checks if password string is used to generate the stored password.
+
+2) login
+3) logout
+    - delete/invalidate the token key
+
+http(not encrypted) - https(secure ssl over network)
+
+Session: TIme period for a user is authenticated or validated.
 
 

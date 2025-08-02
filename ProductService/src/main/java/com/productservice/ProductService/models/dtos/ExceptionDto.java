@@ -10,4 +10,5 @@ import lombok.Setter;
 public class ExceptionDto {
       private HttpStatus httpStatus;
       private String message;
+      private Integer messageCode;
 }

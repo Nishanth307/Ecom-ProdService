@@ -10,6 +10,7 @@ import com.productservice.ProductService.services.interfaces.IProductService;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -35,7 +36,11 @@ public class ProductDB implements IProductService {
     @Override
     public List<GenericProductResponseDto> getAllProducts() {
         List<Product> products = productRepository.findAll();
-        return List.of();
+        List<GenericProductResponseDto> dtos = new ArrayList<>();
+        for (Product product:products) {
+            dtos.add(convertToGenericProductResponseDto(product));
+        }
+        return dtos;
     }
 
     @Override
@@ -87,6 +92,16 @@ public class ProductDB implements IProductService {
         dto.setDescription(requestDto.getDescription());
         dto.setTitle(requestDto.getTitle());
         dto.setImage(requestDto.getImage());
+        return dto;
+    }
+
+    private GenericProductResponseDto convertToGenericProductResponseDto(Product product){
+        GenericProductResponseDto dto = new GenericProductResponseDto();
+        dto.setId(product.getId().toString());
+        dto.setTitle(product.getTitle());
+        dto.setDescription(product.getDescription());
+        dto.setImage(product.getImage());
+        dto.setCategory(product.getCategory().toString());
         return dto;
     }
 
