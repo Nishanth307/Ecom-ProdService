@@ -5,6 +5,7 @@ import java.util.List;
 import com.productservice.ProductService.models.dtos.GenericProductRequestDto;
 import com.productservice.ProductService.models.dtos.GenericDto;
 import com.productservice.ProductService.models.dtos.GenericProductResponseDto;
+import org.springframework.data.domain.Page;
 
 public interface IProductService {
         public GenericProductResponseDto getProductById(String id);
@@ -12,4 +13,5 @@ public interface IProductService {
         public GenericProductResponseDto deleteProductById(String id);
         public GenericDto createProduct(GenericProductRequestDto productDto);
         public GenericDto updateProductById(String id, GenericProductRequestDto productDto);
+        public Page<GenericProductResponseDto> getAllProductsFiltered(int pageNumber);
 }

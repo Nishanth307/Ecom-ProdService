@@ -1,5 +1,6 @@
 package com.productservice.ProductService.services.localDbImpl;
 
+import com.productservice.ProductService.exceptions.ProductNotFoundException;
 import com.productservice.ProductService.models.dtos.GenericProductRequestDto;
 import com.productservice.ProductService.models.datamodels.Product;
 import com.productservice.ProductService.models.dtos.GenericDto;
@@ -7,7 +8,11 @@ import com.productservice.ProductService.models.dtos.GenericProductResponseDto;
 import com.productservice.ProductService.models.datamodels.Rating;
 import com.productservice.ProductService.repositories.ProductRepository;
 import com.productservice.ProductService.services.interfaces.IProductService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -24,13 +29,15 @@ public class ProductDB implements IProductService {
     }
 
     @Override
+    @Cacheable(value = "products",key = "#id")
     public GenericProductResponseDto getProductById(String id) {
         UUID uuid = UUID.fromString(id);
-        Optional<Product> product = productRepository.findById(uuid);
-
-        // to product
-
-        return null;
+        Optional<Product> productOptional = productRepository.findById(uuid);
+        if (productOptional.isEmpty()){
+            throw new ProductNotFoundException("product not found for uuid:"+uuid);
+        }
+        Product product = productOptional.get();
+        return convertToGenericProductResponseDto(product);
     }
 
     @Override
@@ -41,6 +48,20 @@ public class ProductDB implements IProductService {
             dtos.add(convertToGenericProductResponseDto(product));
         }
         return dtos;
+    }
+
+    @Override
+    public Page<GenericProductResponseDto> getAllProductsFiltered(int pageNumber) {
+        Sort sort = Sort.by("title").and(Sort.by("rating"));
+        String filterAsc = "title";
+        String filterDsc = "rating"; // can take as parameters
+        Sort sort2 = Sort.by(filterAsc).ascending().and(Sort.by(filterDsc).descending());
+        Page<Product> products = productRepository.findAll(PageRequest.of(pageNumber,3, sort));
+        List<GenericProductResponseDto> dtos = new ArrayList<>();
+        for (Product product:products) {
+            dtos.add(convertToGenericProductResponseDto(product));
+        }
+        return (Page<GenericProductResponseDto>) dtos;
     }
 
     @Override
@@ -106,5 +127,3 @@ public class ProductDB implements IProductService {
     }
 
 }
-
-// normally we don't have to send response

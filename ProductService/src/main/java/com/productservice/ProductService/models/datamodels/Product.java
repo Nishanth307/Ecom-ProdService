@@ -4,12 +4,13 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Getter
 @Setter
 @Entity
-public class Product extends BaseModel{
+public class Product extends BaseModel implements Serializable {
     @Column(nullable = false,unique = true)
     private String name;
     private String title;

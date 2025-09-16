@@ -7,6 +7,8 @@ import com.productservice.ProductService.exceptions.InvalidTokenException;
 import com.productservice.ProductService.models.dtos.*;
 import com.productservice.ProductService.services.interfaces.IProductService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Base64;
@@ -29,9 +31,17 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<GenericProductResponseDto> getAllProducts(@RequestHeader("token") String token) throws JsonProcessingException {
+//    public List<GenericProductResponseDto> getAllProducts(@RequestHeader("token") String token, List<SortDto> sortDto) throws JsonProcessingException {
+        public List<GenericProductResponseDto> getAllProducts(@RequestHeader("token") String token) throws JsonProcessingException {
         String Access = validateToken(token);
         return productService.getAllProducts();
+    }
+
+    @GetMapping("all/{pageNumber}")
+    public Page<GenericProductResponseDto> getAllProductsFiltered(@PathVariable("pageNumber") int pageNumber)
+            throws JsonProcessingException {
+//        String Access = validateToken(token);
+        return productService.getAllProductsFiltered(pageNumber);
     }
 
     @PutMapping("/{id}")

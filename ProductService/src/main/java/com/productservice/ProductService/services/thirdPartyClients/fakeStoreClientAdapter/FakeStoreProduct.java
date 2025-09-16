@@ -5,6 +5,7 @@ import com.productservice.ProductService.models.dtos.GenericDto;
 import com.productservice.ProductService.models.dtos.GenericProductResponseDto;
 import com.productservice.ProductService.services.interfaces.IProductService;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.data.domain.Page;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
@@ -65,6 +66,11 @@ public class FakeStoreProduct implements IProductService {
         if (responseEntity.hasBody()){
             return responseEntity.getBody();
         }
+        return null;
+    }
+
+    @Override
+    public Page<GenericProductResponseDto> getAllProductsFiltered(int pageNumber) {
         return null;
     }
 
