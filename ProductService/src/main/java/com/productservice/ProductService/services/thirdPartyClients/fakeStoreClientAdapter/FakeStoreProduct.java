@@ -1,10 +1,11 @@
 package com.productservice.ProductService.services.thirdPartyClients.fakeStoreClientAdapter;
 
+import com.productservice.ProductService.configuration.RedisTemplateConfiguration;
+import com.productservice.ProductService.configuration.RestTemplateConfiguration;
 import com.productservice.ProductService.models.dtos.GenericProductRequestDto;
 import com.productservice.ProductService.models.dtos.GenericDto;
 import com.productservice.ProductService.models.dtos.GenericProductResponseDto;
 import com.productservice.ProductService.services.interfaces.IProductService;
-import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.http.*;
 import org.springframework.stereotype.Component;
@@ -16,15 +17,18 @@ import java.util.List;
 
 @Component("productFakeStore")
 public class FakeStoreProduct implements IProductService {
-    private final RestTemplateBuilder restTemplateBuilder;
+    private final RestTemplate restTemplate;
+    private final RedisTemplateConfiguration redisTemplate;
 
-    public FakeStoreProduct(RestTemplateBuilder restTemplateBuilder){
-        this.restTemplateBuilder = restTemplateBuilder;
+    public FakeStoreProduct(RestTemplateConfiguration restTemplateConfiguration,
+                            RedisTemplateConfiguration redisTemplate){
+        this.restTemplate = restTemplateConfiguration.getRestTemplate();
+        this.redisTemplate = redisTemplate;
     }
 
     @Override
     public GenericProductResponseDto getProductById(String id) {
-        RestTemplate restTemplate = restTemplateBuilder.build();
+//        RestTemplate restTemplate = restTemplate.build();
         String url = "https://fakestoreapi.com/products/{id}";
 
         ResponseEntity<GenericProductResponseDto> responseEntity = restTemplate
@@ -39,7 +43,7 @@ public class FakeStoreProduct implements IProductService {
 
     @Override
     public List<GenericProductResponseDto> getAllProducts() {
-        RestTemplate restTemplate = restTemplateBuilder.build();
+//        RestTemplate restTemplate = restTemplateBuilder.build();
         String url = "https://fakestoreapi.com/products";
 
         ResponseEntity<GenericProductResponseDto[]> responseEntity = restTemplate
@@ -54,7 +58,7 @@ public class FakeStoreProduct implements IProductService {
 
     @Override
     public GenericDto updateProductById(String id, GenericProductRequestDto productDto) {
-        RestTemplate restTemplate = restTemplateBuilder.build();
+//        RestTemplate restTemplate = restTemplateBuilder.build();
         String url = "https://fakestoreapi.com/products/{id}";
 
         HttpHeaders headers = new HttpHeaders();
@@ -77,7 +81,7 @@ public class FakeStoreProduct implements IProductService {
     @Override
     public GenericDto createProduct(GenericProductRequestDto fakeStoreProduct) {
         String url = "https://fakestoreapi.com/products";
-        RestTemplate restTemplate = restTemplateBuilder.build();
+//        RestTemplate restTemplate = restTemplateBuilder.build();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -93,7 +97,7 @@ public class FakeStoreProduct implements IProductService {
 
     @Override
     public GenericProductResponseDto deleteProductById(String id) {
-        RestTemplate restTemplate = restTemplateBuilder.build();
+//        RestTemplate restTemplate = restTemplateBuilder.build();
         String url = "https://fakestoreapi.com/products/{id}";
 
         HttpHeaders headers = new HttpHeaders();
