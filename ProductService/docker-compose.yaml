@@ -1,12 +1,13 @@
 version: '3.8'
 
 services:
-#  mysql:
-#    image: mysql
-#    container_name: mysql
-#    ports:
-#      - "5432:5432"
+  mysql:
+    image: mysql
+    container_name: mysql
+    ports:
+      - "5432:5432"
 #    volumes:
+#      - mysql_data:/var/lib/mysql
 
   redis:
     image: redis:7-alpine
