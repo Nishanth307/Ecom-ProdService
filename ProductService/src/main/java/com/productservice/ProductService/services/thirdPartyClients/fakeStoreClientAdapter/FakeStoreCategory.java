@@ -1,5 +1,6 @@
 package com.productservice.ProductService.services.thirdPartyClients.fakeStoreClientAdapter;
 
+import com.productservice.ProductService.exceptions.CategoryNotFoundException;
 import com.productservice.ProductService.models.datamodels.Category;
 import com.productservice.ProductService.services.interfaces.ICategoryService;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -37,11 +38,18 @@ public class FakeStoreCategory implements ICategoryService {
 
     @Override
     public void createCategory(Category category) {
-
+        // FakeStore API doesn't support creating categories
+        // This is a no-op implementation for third-party client
+        // In a real scenario, you might want to throw an UnsupportedOperationException
+        // or log that this operation is not supported
     }
 
     @Override
-    public Category findCategoryByName(String categoryName) {
-        return null;
+    public Category findCategoryByName(String categoryName) throws CategoryNotFoundException {
+        List<Category> categories = getCategories();
+        return categories.stream()
+                .filter(category -> category.getName().equalsIgnoreCase(categoryName))
+                .findFirst()
+                .orElseThrow(() -> new CategoryNotFoundException("Category with name '" + categoryName + "' not found"));
     }
 }

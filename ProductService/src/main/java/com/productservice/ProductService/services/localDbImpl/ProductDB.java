@@ -53,22 +53,21 @@ public class ProductDB implements IProductService {
     @Override
     public Page<GenericProductResponseDto> getAllProductsFiltered(int pageNumber) {
         Sort sort = Sort.by("title").and(Sort.by("rating"));
-        String filterAsc = "title";
-        String filterDsc = "rating"; // can take as parameters
-        Sort sort2 = Sort.by(filterAsc).ascending().and(Sort.by(filterDsc).descending());
         Page<Product> products = productRepository.findAll(PageRequest.of(pageNumber,3, sort));
-        List<GenericProductResponseDto> dtos = new ArrayList<>();
-        for (Product product:products) {
-            dtos.add(convertToGenericProductResponseDto(product));
-        }
-        return (Page<GenericProductResponseDto>) dtos;
+        return products.map(this::convertToGenericProductResponseDto);
     }
 
     @Override
     public GenericProductResponseDto deleteProductById(String id) {
         UUID uuid = UUID.fromString(id);
-        Product product= productRepository.deleteProductById(uuid);
-        return null;
+        Optional<Product> productOptional = productRepository.findById(uuid);
+        if (productOptional.isEmpty()){
+            throw new ProductNotFoundException("product not found for uuid:"+uuid);
+        }
+        Product product = productOptional.get();
+        GenericProductResponseDto responseDto = convertToGenericProductResponseDto(product);
+        productRepository.deleteById(uuid);
+        return responseDto;
     }
 
     @Override
@@ -81,8 +80,35 @@ public class ProductDB implements IProductService {
     @Override
     public GenericDto updateProductById(String id, GenericProductRequestDto productDto) {
         UUID uuid = UUID.fromString(id);
-        Product product = new Product();
-        productRepository.save(product);
+        Optional<Product> productOptional = productRepository.findById(uuid);
+        if (productOptional.isEmpty()){
+            throw new ProductNotFoundException("product not found for uuid:"+uuid);
+        }
+        Product existingProduct = productOptional.get();
+        
+        // Update existing product with new values
+        existingProduct.setName(productDto.getName());
+        existingProduct.setTitle(productDto.getTitle());
+        existingProduct.setDescription(productDto.getDescription());
+        existingProduct.setCategory(productDto.getCategory());
+        existingProduct.setImage(productDto.getImage());
+        existingProduct.setOrders(productDto.getOrders());
+        existingProduct.setPrice(productDto.getPrice());
+        
+        // Update rating
+        if (productDto.getRating() != null) {
+            if (existingProduct.getRating() != null) {
+                existingProduct.getRating().setCount(productDto.getRating().getCount());
+                existingProduct.getRating().setRate(productDto.getRating().getRate());
+            } else {
+                Rating rating = new Rating();
+                rating.setCount(productDto.getRating().getCount());
+                rating.setRate(productDto.getRating().getRate());
+                existingProduct.setRating(rating);
+            }
+        }
+        
+        productRepository.save(existingProduct);
         return convertToGenericDto(productDto);
     }
 
@@ -96,10 +122,13 @@ public class ProductDB implements IProductService {
         product.setOrders(dto.getOrders());
         product.setPrice(dto.getPrice());
 
-        Rating rating = new Rating();
-        rating.setCount(dto.getRating().getCount());
-        rating.setRate(dto.getRating().getRate());
-        product.setRating(rating);
+        // Set rating if provided
+        if (dto.getRating() != null) {
+            Rating rating = new Rating();
+            rating.setCount(dto.getRating().getCount());
+            rating.setRate(dto.getRating().getRate());
+            product.setRating(rating);
+        }
 
         return product;
     }
@@ -108,21 +137,39 @@ public class ProductDB implements IProductService {
         GenericDto dto = new GenericDto();
         dto.setName(requestDto.getName());
         dto.setTitle(requestDto.getTitle());
-        dto.setPrice(requestDto.getPrice().getValue());
-        dto.setCategory(requestDto.getCategory().getName());
+        if (requestDto.getPrice() != null && requestDto.getPrice().getValue() != null) {
+            dto.setPrice(requestDto.getPrice().getValue());
+        }
+        if (requestDto.getCategory() != null) {
+            dto.setCategory(requestDto.getCategory().getName());
+        }
         dto.setDescription(requestDto.getDescription());
-        dto.setTitle(requestDto.getTitle());
         dto.setImage(requestDto.getImage());
         return dto;
     }
 
-    private GenericProductResponseDto convertToGenericProductResponseDto(Product product){
+    public GenericProductResponseDto convertToGenericProductResponseDto(Product product){
         GenericProductResponseDto dto = new GenericProductResponseDto();
         dto.setId(product.getId().toString());
         dto.setTitle(product.getTitle());
         dto.setDescription(product.getDescription());
         dto.setImage(product.getImage());
-        dto.setCategory(product.getCategory().toString());
+        dto.setCategory(product.getCategory() != null ? product.getCategory().getName() : null);
+        
+        // Set price
+        if (product.getPrice() != null && product.getPrice().getValue() != null) {
+            dto.setPrice(product.getPrice().getValue().intValue());
+        }
+        
+        // Set rating
+        if (product.getRating() != null) {
+            com.productservice.ProductService.models.dtos.Rating ratingDto = 
+                new com.productservice.ProductService.models.dtos.Rating();
+            ratingDto.setRate(product.getRating().getRate());
+            ratingDto.setCount(product.getRating().getCount());
+            dto.setRating(ratingDto);
+        }
+        
         return dto;
     }
 

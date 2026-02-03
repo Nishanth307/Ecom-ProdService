@@ -20,14 +20,24 @@ public class CategoryController {
         return categoryService.getCategories();
     }
 
-    @GetMapping("categories/{name}")
+    @GetMapping("/{name}")
     public Category getCategoryByName(@PathVariable String name) throws CategoryNotFoundException {
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Category name cannot be null or empty");
+        }
         return categoryService.findCategoryByName(name);
     }
 
     @PostMapping
-    public void createCategory(@RequestBody Category category){
+    public Category createCategory(@RequestBody Category category){
+        if (category == null) {
+            throw new IllegalArgumentException("Category cannot be null");
+        }
+        if (category.getName() == null || category.getName().isEmpty()) {
+            throw new IllegalArgumentException("Category name cannot be null or empty");
+        }
         categoryService.createCategory(category);
+        return category;
     }
 
 

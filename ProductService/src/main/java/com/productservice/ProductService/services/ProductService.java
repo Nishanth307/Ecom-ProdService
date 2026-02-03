@@ -5,6 +5,7 @@ import com.productservice.ProductService.models.dtos.GenericDto;
 import com.productservice.ProductService.models.dtos.GenericProductResponseDto;
 import com.productservice.ProductService.services.interfaces.IProductService;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,5 +36,9 @@ public class ProductService  {
 
       public GenericProductResponseDto deleteProductById(String id){
             return productService.deleteProductById(id);
+      }
+
+      public Page<GenericProductResponseDto> getAllProductsFiltered(int pageNumber) {
+            return productService.getAllProductsFiltered(pageNumber);
       }
 }

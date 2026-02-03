@@ -19,7 +19,7 @@ public class CategoryDB implements ICategoryService {
     }
     @Override
     public List<Category> getCategories() {
-        return List.of();
+        return categoryRepository.findAll();
     }
 
     @Override
